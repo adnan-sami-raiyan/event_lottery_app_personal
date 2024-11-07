@@ -1,0 +1,44 @@
+<!-- activity_admin.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/admin_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_panel"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:background="#0D47A1"/>
+
+    <Button
+        android:id="@+id/button_manage_facilities"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/manage_facilities"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/button_manage_profiles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/manage_profiles"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/button_manage_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/manage_images"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/button_manage_events"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/manage_all_events"
+        android:layout_marginTop="16dp" />
+</LinearLayout>

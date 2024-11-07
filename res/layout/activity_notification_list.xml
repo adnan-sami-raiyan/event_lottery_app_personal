@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Header TextView for Notifications -->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0D47A1"
+        android:text="@string/notifications"
+        android:textAlignment="center"
+        android:textColor="#F6F4F4"
+        android:textSize="34sp" />
+
+    <!-- Notification Settings Button -->
+    <ImageButton android:id="@+id/settings_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginEnd="10dp"
+    android:layout_marginTop="10dp"
+    android:src="@drawable/ic_settings"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:contentDescription="@string/settings" />
+
+    <!-- ListView for Notifications -->
+    <ListView
+        android:id="@+id/notification_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/textView"
+        android:layout_above="@id/back_button"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Back Button -->
+    <Button
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="21dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#0D47A1"
+        android:text="@string/back"
+        android:textColor="@color/white"/>
+
+    <!-- Reload Button -->
+    <ImageButton
+        android:id="@+id/reloadButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_refresh"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#0D47A1"/>
+
+</RelativeLayout>
