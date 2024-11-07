@@ -32,6 +32,8 @@ public class ManageFacilitiesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_manage_facilities);
 
+        NavigatonActivity.setupBottomNavigation(this);
+        
         db = FirebaseFirestore.getInstance();
         facilitiesList = new ArrayList<>();
 
@@ -81,7 +83,7 @@ public class ManageFacilitiesActivity extends AppCompatActivity {
     }
 
     private void loadFacilities() {
-        CollectionReference facilitiesRef = db.collection("facility");
+        CollectionReference facilitiesRef = db.collection("facilities");
         facilitiesRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -92,7 +94,7 @@ public class ManageFacilitiesActivity extends AppCompatActivity {
                 facilitiesList.clear();
                 assert value != null;
                 for (QueryDocumentSnapshot doc : value) {
-                    String facilityName = doc.getString("facilityName");
+                    String facilityName = doc.getString("name");
                     facilitiesList.add(facilityName);
                 }
                 adapter.notifyDataSetChanged();
@@ -101,8 +103,8 @@ public class ManageFacilitiesActivity extends AppCompatActivity {
     }
 
     private void deleteFacility(String facilityName) {
-        CollectionReference facilitiesRef = db.collection("facility");
-        facilitiesRef.whereEqualTo("facilityName", facilityName).get().addOnSuccessListener(queryDocumentSnapshots -> {
+        CollectionReference facilitiesRef = db.collection("facilities");
+        facilitiesRef.whereEqualTo("name", facilityName).get().addOnSuccessListener(queryDocumentSnapshots -> {
             for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                 doc.getReference().delete();
             }

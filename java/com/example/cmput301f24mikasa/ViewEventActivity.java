@@ -6,10 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -51,7 +48,7 @@ public class ViewEventActivity extends AppCompatActivity {
                     if (documentSnapshot.exists()) {
                         txtEventTitle.setText(documentSnapshot.getString("title"));
                         txtEventDescription.setText(documentSnapshot.getString("description"));
-                        txtEventDate.setText(documentSnapshot.getString("startDate"));
+                        txtEventDate.setText(documentSnapshot.getString("date"));
                         txtEventPrice.setText(documentSnapshot.getString("price"));
                     } else {
                         Toast.makeText(this, "Event not found", Toast.LENGTH_SHORT).show();
@@ -73,10 +70,7 @@ public class ViewEventActivity extends AppCompatActivity {
                 if (!waitingList.contains(deviceId)) {
                     waitingList.add(deviceId);
                     eventRef.update("waitingList", waitingList)
-                            .addOnSuccessListener(aVoid -> {
-                                Toast.makeText(this, "Signed up successfully!", Toast.LENGTH_SHORT).show();
-                               // updateUserProfileWithEvent();
-                            })
+                            .addOnSuccessListener(aVoid -> Toast.makeText(this, "Signed up successfully!", Toast.LENGTH_SHORT).show())
                             .addOnFailureListener(e -> Toast.makeText(this, "Failed to sign up", Toast.LENGTH_SHORT).show());
                 } else {
                     Toast.makeText(this, "You are already signed up for this event", Toast.LENGTH_SHORT).show();
@@ -85,37 +79,6 @@ public class ViewEventActivity extends AppCompatActivity {
         });
     }
 
-    // not working atm.
-    /*
-    private void updateUserProfileWithEvent() {
-        // Get the current user's ID
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DocumentReference userRef = db.collection("users").document(userId);
-
-        // Fetch the current user's profile
-        userRef.get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists()) {
-                // Get the current eventsJoined array (if it exists, otherwise initialize an empty one)
-                List<String> eventsJoined = (List<String>) documentSnapshot.get("eventsJoined");
-                if (eventsJoined == null) {
-                    eventsJoined = new ArrayList<>();
-                }
-
-                // Add the eventId to the eventsJoined list if it's not already present
-                if (!eventsJoined.contains(eventId)) {
-                    eventsJoined.add(eventId);
-
-                    // Update the user's profile with the new eventsJoined list
-                    userRef.update("eventsJoined", eventsJoined)
-                            .addOnSuccessListener(aVoid -> Toast.makeText(ViewEventActivity.this, "Event added to your profile", Toast.LENGTH_SHORT).show())
-                            .addOnFailureListener(e -> Toast.makeText(ViewEventActivity.this, "Failed to update profile", Toast.LENGTH_SHORT).show());
-                } else {
-                    Toast.makeText(ViewEventActivity.this, "Event already in your profile", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }).addOnFailureListener(e -> Toast.makeText(ViewEventActivity.this, "Failed to load user profile", Toast.LENGTH_SHORT).show());
-    }
-*/
     @SuppressLint("HardwareIds")
     public String fetchDeviceId() {
         // Replace with your device ID retrieval method

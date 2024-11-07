@@ -4,17 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Header -->
-    <TextView
-        android:id="@+id/header_text"
+    <!-- Fragment container -->
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/home"
-        android:textSize="24sp"
-        android:textColor="@android:color/white"
-        android:background="@android:color/holo_blue_dark"
-        android:gravity="center"
-        android:padding="16dp" />
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation" />
 
     <!-- Bottom Navigation Bar -->
     <LinearLayout
@@ -70,3 +65,4 @@
             app:tint="@android:color/white" />
     </LinearLayout>
 </RelativeLayout>
+

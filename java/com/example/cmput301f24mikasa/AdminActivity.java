@@ -1,3 +1,8 @@
+/**
+ * This is the Admin Dashboard, where the Admin can manage events, profiles, images, and facilities.
+ * Each button redirects to the respective section of the admin panel.
+ */
+
 package com.example.cmput301f24mikasa;
 
 import android.content.Intent;
@@ -13,11 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
  */
 public class AdminActivity extends AppCompatActivity {
 
-    private Button manageFacilitiesButton;
-    private Button manageProfilesButton;
-    private Button manageImagesButton;
-    private Button manageEventsButton;
-
     /**
      * Initializes the activity, setting up the admin dashboard and button click listeners
      * @param savedInstanceState
@@ -25,39 +25,44 @@ public class AdminActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin);
+        setContentView(R.layout.activity_admin_dashboard);
 
-        // Initialize bottom navigation
-        NavigationActivity.setupBottomNavigation(this);
+        NavigatonActivity.setupBottomNavigation(this);
+        Button buttonManageEvents = findViewById(R.id.btn_manage_events);
+        Button buttonManageProfiles = findViewById(R.id.btn_manage_profiles);
+        Button buttonManageImages = findViewById(R.id.btn_manage_images);
+        Button buttonManageFacilities = findViewById(R.id.btn_manage_facilities);
 
-        // Initialize buttons
-        manageFacilitiesButton = findViewById(R.id.button_manage_facilities);
-        manageProfilesButton = findViewById(R.id.button_manage_profiles);
-        manageImagesButton = findViewById(R.id.button_manage_images);
-        manageEventsButton = findViewById(R.id.button_manage_events);
-
-        // Set click listener for Manage Facilities
-        manageFacilitiesButton.setOnClickListener(view -> {
-            Intent intent = new Intent(AdminActivity.this, ManageFacilitiesActivity.class);
-            startActivity(intent);
+        buttonManageEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AdminActivity.this, AdminManageEvents.class);
+                startActivity(intent);
+            }
         });
 
-        // Set click listener for Manage Profiles
-        manageProfilesButton.setOnClickListener(view -> {
-            Intent intent = new Intent(AdminActivity.this, ManageProfileActivity.class);
-            startActivity(intent);
+        buttonManageProfiles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AdminActivity.this, ManageProfileActivity.class);
+                startActivity(intent);
+            }
         });
 
-        // Set click listener for Manage Images
-        manageImagesButton.setOnClickListener(view -> {
-            Intent intent = new Intent(AdminActivity.this, ManageImagesActivity.class);
-            startActivity(intent);
+        buttonManageImages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AdminActivity.this, ManageImagesActivity.class);
+                startActivity(intent);
+            }
         });
 
-        // Set click listener for Manage Events
-        manageEventsButton.setOnClickListener(view -> {
-            Intent intent = new Intent(AdminActivity.this, AdminManageEvents.class);
-            startActivity(intent);
+        buttonManageFacilities.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AdminActivity.this, ManageFacilitiesActivity.class);
+                startActivity(intent);
+            }
         });
     }
 }
