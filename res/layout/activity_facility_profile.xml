@@ -95,14 +95,14 @@
                 android:id="@+id/editFacilityName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:background="#D4D4D4"
                 android:ems="10"
-                android:hint="@string/enter_facility_name"
                 android:inputType="text"
+                android:hint="@string/enter_facility_name"
                 android:padding="16dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black" />
+                android:textColorHint="@color/black"
+                android:background="#D4D4D4"
+                android:layout_margin="20dp"
+                />
 
 
             <EditText
@@ -115,7 +115,6 @@
                 android:hint="@string/enter_facility_location"
                 android:inputType="text"
                 android:padding="16dp"
-                android:textColor="@color/black"
                 android:textColorHint="@color/black" />
 
             <EditText
@@ -129,7 +128,6 @@
                 android:hint="@string/enter_facility_description"
                 android:inputType="textMultiLine"
                 android:padding="16dp"
-                android:textColor="@color/black"
                 android:textColorHint="@color/black" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -168,11 +166,11 @@
                     app:layout_constraintGuide_begin="205dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         </LinearLayout>
-
-
+        <include
+            layout="@layout/nav_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
 </RelativeLayout>

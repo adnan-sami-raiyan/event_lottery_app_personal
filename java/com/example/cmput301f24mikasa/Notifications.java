@@ -1,6 +1,7 @@
 package com.example.cmput301f24mikasa;
 
 public class Notifications {
+    private String notificationID;
     private String notificationText;
     private String recipientDeviceId;
     private String senderName;
@@ -16,12 +17,20 @@ public class Notifications {
         this.eventDescription = eventDescription;
     }
 
-    public Notifications(String notificationText) {
+    public Notifications(String ID, String notificationText) {
+        this.notificationID=ID;
         this.notificationText = notificationText;
     }
 
     public Notifications() {}
 
+    public String getNotificationID() {
+        return notificationID;
+    }
+
+    public void setNotificationID(String notificationID) {
+        this.notificationID = notificationID;
+    }
     // Getters and Setters
     public String getNotificationText() {
         return notificationText;

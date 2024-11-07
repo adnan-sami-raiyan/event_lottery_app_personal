@@ -24,7 +24,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -44,6 +43,8 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        NavigatonActivity.setupBottomNavigation(this);
 
         nameEditText = findViewById(R.id.name_edit_text);
         emailEditText = findViewById(R.id.email_edit_text);
@@ -68,15 +69,6 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveUserProfile();
-            }
-        });
-
-        Button backButton = findViewById(R.id.back_button);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Navigate back to home screen or previous activity
-                finish(); // Closes the current activity and returns to the previous one
             }
         });
     }
@@ -128,9 +120,6 @@ public class UserProfileActivity extends AppCompatActivity {
         // Create a User object with phone being either the entered value or null
         UserProfile user = new UserProfile(name, null, deviceId, email, phone);
 
-        // Initialize eventsJoined array (it's already done in the constructor, but ensure it's there)
-        user.setEventsJoined(new ArrayList<>());  // Create an empty list for events the user will join
-
         // Check if an image is uploaded
         if (imageUri != null) {
             uploadImageAndSaveProfile(user);
@@ -142,10 +131,6 @@ public class UserProfileActivity extends AppCompatActivity {
             // Store User object in Firestore with the default image
             saveUserToFirestore(user);
         }
-
-        // After saving successfully, set result and finish
-        setResult(RESULT_OK);
-        finish();
     }
 
     private String getRandomImageUrl() {
@@ -175,8 +160,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void saveUserToFirestore(UserProfile userProfile) {
         db.collection("users")
-                .document(userProfile.getDeviceId())  // Use deviceId as the document ID
-                .set(userProfile)  // Store the full UserProfile object
+                .document(userProfile.getDeviceId())
+                .set(userProfile)
                 .addOnSuccessListener(aVoid -> Toast.makeText(UserProfileActivity.this, "Profile saved successfully", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> Toast.makeText(UserProfileActivity.this, "Failed to save profile", Toast.LENGTH_SHORT).show());
     }

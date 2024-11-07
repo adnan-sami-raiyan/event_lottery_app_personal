@@ -193,10 +193,10 @@ public class CreateEventActivity extends AppCompatActivity {
                     eventDetails.put("eventID", eventID);
                     eventDetails.put("imageURL", uri.toString());
                     eventDetails.put("cancelledEntrants", new ArrayList<>());
-                    eventDetails.put("selectedEntrants", new ArrayList<>());
+                    //eventDetails.put("selectedEntrants", new ArrayList<>());
+                    eventDetails.put("alreadySampled", "0");
                     eventDetails.put("hasWaitingListLimit", hasWaitingListLimit);
                     eventDetails.put("waitingListLimit", waitingListLimit);
-                    eventDetails.put("waitingList", new ArrayList<>()); // Add empty WaitingList array
 
                     documentReference.set(eventDetails).addOnSuccessListener(aVoid -> {
                         eventCreated = true;

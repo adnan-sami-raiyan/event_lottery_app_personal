@@ -7,23 +7,11 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#0D47A1"
-        android:text="@string/notifications"
+        android:background="@android:color/holo_blue_dark"
+        android:text="Notifications"
         android:textAlignment="center"
         android:textColor="#F6F4F4"
         android:textSize="34sp" />
-
-    <!-- Notification Settings Button -->
-    <ImageButton android:id="@+id/settings_button"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentTop="true"
-    android:layout_marginEnd="10dp"
-    android:layout_marginTop="10dp"
-    android:src="@drawable/ic_settings"
-    android:background="?attr/selectableItemBackgroundBorderless"
-    android:contentDescription="@string/settings" />
 
     <!-- ListView for Notifications -->
     <ListView
@@ -43,9 +31,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="21dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="#0D47A1"
-        android:text="@string/back"
-        android:textColor="@color/white"/>
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:text="Back" />
 
     <!-- Reload Button -->
     <ImageButton
@@ -53,10 +40,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_refresh"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="21dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="#0D47A1"/>
+        android:backgroundTint="@android:color/holo_blue_dark"/>
 
 </RelativeLayout>

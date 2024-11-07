@@ -1,18 +1,18 @@
 package com.example.cmput301f24mikasa;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -23,9 +23,6 @@ public class ManageNotificationsActivity extends AppCompatActivity {
     private ListView notificationListView;
     private NotificationArrayAdapter adapter;
     private List<Notifications> notificationList;
-    private SharedPreferences sharedPreferences;
-    private static final String PREFS_NAME = "notification_prefs";
-    private static final String KEY_NOTIFICATIONS_ENABLED = "notifications_enabled";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,26 +34,15 @@ public class ManageNotificationsActivity extends AppCompatActivity {
         adapter = new NotificationArrayAdapter(this, notificationList);
         notificationListView.setAdapter(adapter);
 
-        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        // Load notifications from Firestore
+        loadNotifications();
 
-        // Load notifications if enabled
-        boolean notificationsEnabled = sharedPreferences.getBoolean(KEY_NOTIFICATIONS_ENABLED, true);
-        if (notificationsEnabled) {
-            loadNotifications();
-        } else {
-            Toast.makeText(this, "Notifications are disabled.", Toast.LENGTH_SHORT).show();
-        }
+        // Set up click listener for notifications
+        setupNotificationClickListener();
 
         // Back button
         Button btnBack = findViewById(R.id.back_button);
         btnBack.setOnClickListener(v -> finish());
-
-        // Settings button
-        ImageButton settingsButton = findViewById(R.id.settings_button);
-        settingsButton.setOnClickListener(v -> {
-            Intent intent = new Intent(ManageNotificationsActivity.this, NotificationSettingsActivity.class);
-            startActivity(intent);
-        });
     }
 
     private void loadNotifications() {
@@ -73,9 +59,9 @@ public class ManageNotificationsActivity extends AppCompatActivity {
                         Toast.makeText(this, "No notifications found for your device.", Toast.LENGTH_SHORT).show();
                     } else {
                         for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                            // Fetch only the necessary fields
                             String text = document.getString("text");
-                            Notifications notification = new Notifications(text); // Only `text` is required
+                            String notificationId = document.getId();
+                            Notifications notification = new Notifications(notificationId, text); // Include ID for reference
                             notificationList.add(notification);
                         }
                         adapter.notifyDataSetChanged();
@@ -84,6 +70,53 @@ public class ManageNotificationsActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Log.e("FirestoreError", "Error fetching notifications: ", e);
                     Toast.makeText(this, "Failed to load notifications.", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void setupNotificationClickListener() {
+        notificationListView.setOnItemClickListener((parent, view, position, id) -> {
+            Notifications selectedNotification = notificationList.get(position);
+
+            // Check if "responsive" is set to "1"
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference notificationRef = db.collection("notification").document(selectedNotification.getNotificationID());
+
+            notificationRef.get().addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot.exists()) {
+                    String responsive = documentSnapshot.getString("responsive");
+
+                    if ("1".equals(responsive)) {
+                        // Show dialog for Accept/Decline
+                        new AlertDialog.Builder(this)
+                                .setTitle("Respond to Notification")
+                                .setMessage("Would you like to accept or decline?")
+                                .setPositiveButton("Accept", (dialog, which) -> {
+                                    // Update Firestore with "yes"
+                                    updateNotificationResponse(notificationRef, "yes");
+                                })
+                                .setNegativeButton("Decline", (dialog, which) -> {
+                                    // Update Firestore with "no"
+                                    updateNotificationResponse(notificationRef, "no");
+                                })
+                                .show();
+                    } else {
+                        Toast.makeText(this, "Notification is not responsive.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }).addOnFailureListener(e -> {
+                Log.e("ManageNotificationsActivity", "Error retrieving notification", e);
+            });
+        });
+    }
+
+    private void updateNotificationResponse(DocumentReference notificationRef, String response) {
+        notificationRef.update("responsive", response)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Response updated successfully", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("ManageNotificationsActivity", "Error updating response", e);
+                    Toast.makeText(this, "Failed to update response", Toast.LENGTH_SHORT).show();
                 });
     }
 }
